@@ -1,0 +1,108 @@
+<div class="container-fluid vh-100 p-0 overflow-hidden">
+  <div class="row g-0 h-100">
+    <div class="col-lg-5 d-flex align-items-center justify-content-center bg-rhis-dark p-4 p-md-5">
+      <div class="card register-card shadow-lg p-4 w-100" style="max-width: 450px">
+        <h2 class="text-center fw-bold mb-4 text-rhis-teal">REGISTER</h2>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="mb-2">
+            <input
+              type="text"
+              formControlName="name"
+              class="form-control custom-input"
+              placeholder="Full Name"
+            />
+          </div>
+          <div class="mb-2">
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control custom-input"
+              placeholder="E-Mail"
+            />
+          </div>
+          <div class="mb-2">
+            <input
+              type="text"
+              formControlName="address"
+              class="form-control custom-input"
+              placeholder="Address"
+            />
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <input
+                type="text"
+                formControlName="city"
+                class="form-control custom-input"
+                placeholder="City/Town"
+              />
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                formControlName="country"
+                class="form-control custom-input"
+                placeholder="Country"
+              />
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <input
+              type="text"
+              formControlName="userName"
+              class="form-control custom-input-blue"
+              placeholder="User name"
+            />
+          </div>
+          <div class="mb-2">
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control custom-input-blue"
+              placeholder="Password"
+            />
+          </div>
+          <div class="mb-3">
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              class="form-control custom-input-blue"
+              placeholder="Confirm Password"
+            />
+          </div>
+
+          <div class="d-flex justify-content-between gap-3 mt-4">
+            <a routerLink="/login" class="btn btn-outline-info rounded-pill w-100 py-2 fw-bold"
+              >Back</a
+            >
+            <button
+              type="submit"
+              class="btn btn-rhis-teal rounded-pill w-100 py-2 fw-bold text-white"
+              [disabled]="registerForm.invalid"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-lg-7 d-none d-lg-flex align-items-center justify-content-center bg-register-image">
+      <div class="text-center">
+        <div class="mb-4">
+            <img
+              src="assets/images/LogoRhisAlert.png"
+              alt="logo RhisAlert"
+              class="img-fluid custom-img"
+            />
+        </div>
+        <div class="text-center bg-white-overlay p-4 rounded">
+                    <p class="display-5 text-dark">"Sua saúde respiratória, em sintonia com o ambiente."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

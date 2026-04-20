@@ -1,0 +1,50 @@
+<div class="container-fluid vh-100 p-0 overflow-hidden">
+  <div class="row g-0 h-100">
+    <div
+      class="col-lg-7 d-none d-lg-flex align-items-center justify-content-center bg-login-image p-4"
+    >
+    </div>
+
+    <div class="col-lg-5 d-flex align-items-center justify-content-center bg-rhis-dark p-4 p-md-5">
+      <div class="card login-card shadow-lg p-4 w-100" style="max-width: 400px">
+        <div class="text-center mb-4">
+          <img src="assets/images/LogoRhisAlert.png" alt="Login Logo" class="img-fluid mb-2" style="max-height: 100px;">
+          <h5 class="text-black-80 small text-uppercase tracking-widest">Acesse sua conta</h5>
+        </div>
+
+
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="mb-3">
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control custom-input"
+              placeholder="E-Mail"
+            />
+          </div>
+          <div class="mb-4">
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control custom-input-blue"
+              placeholder="Password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-rhis-teal rounded-pill w-100 py-2 fw-bold text-white mb-3"
+          >
+            Entrar
+          </button>
+
+          <div class="text-center">
+            <a routerLink="/register" class="small text-muted text-decoration-none"
+              >Ainda não tem conta? Crie aqui</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

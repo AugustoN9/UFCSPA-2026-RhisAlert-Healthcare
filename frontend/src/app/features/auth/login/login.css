@@ -1,0 +1,61 @@
+/* Lado Esquerdo: Imagem que ocupa 100% */
+.bg-login-image {
+    background-image: url('/assets/background/wallpaper03.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Lado Direito: Azul profundo consistente com o Registro */
+.bg-rhis-dark {
+    background-color: #f0faff !important; /* Cor exata do seu layout de Registro */
+}
+
+.text-rhis-teal {
+    color: #008ba3 !important;
+}
+
+.login-card {
+    border-radius: 20px;
+    background-color: #f0faff; /* Azul clarinho para o card */
+    border: none;
+}
+
+/* Ajuste do Logotipo e Slogan */
+.custom-img {
+    max-width: 45%;     
+    height: auto;     
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.1));
+}
+
+.bg-white-overlay {
+    background-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(8px); /* Efeito de vidro fosco para leitura do slogan */
+}
+
+/* Estilização dos Inputs (Copiado do seu Registro para manter o padrão) */
+.custom-input {
+    background-color: #c7f2f6 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 15px !important;
+}
+
+.custom-input-blue {
+    background-color: #00acc1 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 15px !important;
+}
+
+.custom-input-blue::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-rhis-teal {
+    background-color: #008ba3 !important;
+    border: none;
+}

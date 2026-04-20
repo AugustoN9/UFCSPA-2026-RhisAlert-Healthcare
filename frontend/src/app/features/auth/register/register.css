@@ -1,0 +1,77 @@
+/* Garante que o fundo escuro ocupe toda a altura da coluna */
+.bg-rhis-dark {
+    background-color: #0b3d59 !important;
+    min-height: 100vh;
+}
+
+.text-rhis-teal {
+    color: #008ba3 !important;
+}
+
+.btn-rhis-teal {
+    background-color: #008ba3 !important;
+    border: none;
+}
+
+.btn-outline-info {
+    color: #008ba3;
+    border-color: #008ba3;
+}
+
+.register-card {
+    border-radius: 20px;
+    background-color: #f0faff; /* Azul bem clarinho para o card */
+    border: none;
+}
+
+/* Estilização dos Inputs Superiores */
+.custom-input {
+    background-color: #c7f2f6 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+}
+
+/* Estilização dos Inputs de Acesso */
+.custom-input-blue {
+    background-color: #00acc1 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+}
+
+.custom-img {
+    max-width: 35%; 
+    
+    height: auto; 
+    
+    display: block;
+    margin: 0 auto;
+
+    transition: all 0.3s ease-in-out;
+    
+    filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
+}
+
+@media (max-width: 991px) {
+    .custom-img {
+        max-width: 150px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+.bg-register-image {
+    background-image: url('/assets/background/wallpaper01.jpg'); /* Substitua pelo seu arquivo */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* Opcional: Uma leve camada branca semi-transparente para dar leitura ao slogan */
+.bg-white-overlay {
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+}

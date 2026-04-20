@@ -1,0 +1,49 @@
+<div class="container py-4">
+  <header class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="text-info mb-0">Olá, {{ user()?.name }}!</h2>
+      <p class="text-muted small">Seu painel de resiliência respiratória</p>
+    </div>
+    <div class="badge rounded-pill p-2" [ngClass]="getRiskLevel().class">
+      Risco: {{ getRiskLevel().label }}
+    </div>
+  </header>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100 p-3">
+        <h5 class="fw-bold"><i class="bi bi-wind"></i> Condição Ambiental</h5>
+        <div class="d-flex justify-content-around text-center mt-3">
+          <div>
+            <h3 class="mb-0">{{ weather().temp }}°C</h3>
+            <small class="text-muted">Temp.</small>
+          </div>
+          <div>
+            <h3 class="mb-0">{{ weather().humidity }}%</h3>
+            <small class="text-muted">Umidade</small>
+          </div>
+        </div>
+        <hr>
+        <p class="small text-secondary m-0">
+          <strong>Dica Bio:</strong> Com a umidade em {{ weather().humidity }}%, 
+          suas mucosas podem ressecar. Mantenha a hidratação!
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100 p-3 bg-light">
+        <h5 class="fw-bold text-primary"><i class="bi bi-heart-pulse"></i> Mental & Humor</h5>
+        <p class="mt-2">"Um pensamento positivo pela manhã pode mudar todo o seu dia."</p>
+        <div class="mt-auto">
+          <button class="btn btn-outline-primary btn-sm w-100">Registrar Humor de Agora</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4 p-3 border rounded bg-white">
+    <h6><i class="bi bi-lungs"></i> Exercício de Respiração Recomendado</h6>
+    <p class="small text-muted mb-0">Técnica 4-4-4 para expansão pulmonar e controle de ansiedade.</p>
+  </div>
+</div>
