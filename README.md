@@ -26,3 +26,10 @@ cd backend
 npm install
 # Crie um arquivo .env com suas chaves (MONGODB_URI e OPENWEATHER_API_KEY)
 node server.js
+```
+### 2. Frontend
+```bash
+cd frontend
+npm install
+ng serve
+# Acesse: http://localhost:4200
