@@ -32,4 +32,7 @@ node server.js
 cd frontend
 npm install
 ng serve
-# Acesse: http://localhost:4200
+
+Acesse: http://localhost:4200
+```
+Desenvolvido por Augusto Cristiano Crestani Lopez
