@@ -15,8 +15,10 @@ export class Login {
   private router = inject(Router);
   private authService = inject(AuthService);
 
-  // Sinal para gerenciar mensagens de erro de forma reativa
+  // Sinal para mensagens de erro reativas
   errorMessage = signal<string | null>(null);
+  // Sinal para indicar que a requisição está em processamento
+  isLoading = signal<boolean>(false);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -24,25 +26,36 @@ export class Login {
   });
 
   onLogin() {
-    this.errorMessage.set(null);
-    const email = this.loginForm.value.email!;
-    
-    // Tenta realizar o login via AuthService
-    const success = this.authService.login(email);
-
-    if (success) {
-      // Verifica se o usuário tem o perfil de saúde preenchido
-      const user = this.authService.currentUser();
-      
-      if (user?.respiratoryConditions && user.respiratoryConditions.length > 0) {
-        console.log('Usuário com perfil de saúde identificado. Indo para o Dashboard.');
-        this.router.navigate(['/dashboard']); // Ajuste para sua rota de destino
-      } else {
-        console.log('Perfil incompleto detectado.');
-        this.router.navigate(['/register']);
-      }
-    } else {
-      this.errorMessage.set('Usuário não encontrado. Verifique o e-mail ou crie uma conta.');
+    if (this.loginForm.invalid) {
+      this.errorMessage.set('Por favor, preencha todos os campos corretamente.');
+      return;
     }
+
+    this.errorMessage.set(null);
+    this.isLoading.set(true);
+
+    // Captura os dados do formulário como um objeto { email, password }
+    const credentials = this.loginForm.getRawValue() as { email: string; password: string };
+
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        this.isLoading.set(false);
+        const user = this.authService.currentUser();
+        
+        // Lógica de redirecionamento baseada no perfil de saúde
+        if (user?.respiratoryConditions && user.respiratoryConditions.length > 0) {
+          console.log('Login bem-sucedido. Indo para o Dashboard.');
+          this.router.navigate(['/dashboard']);
+        } else {
+          console.log('Perfil de saúde incompleto. Indo para Registro.');
+          this.router.navigate(['/register']);
+        }
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        console.error('Erro na autenticação:', err);
+        this.errorMessage.set('E-mail ou senha incorretos. Verifique seus dados.');
+      }
+    });
   }
 }

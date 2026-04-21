@@ -1,8 +1,24 @@
 <div class="container-fluid vh-100 p-0 overflow-hidden">
   <div class="row g-0 h-100">
-    <div class="col-lg-5 d-flex align-items-center justify-content-center bg-rhis-dark p-4 p-md-5">
+    <div
+      class="col-lg-5 d-flex align-items-center justify-content-center bg-rhis-dark p-4 p-md-5 overflow-auto"
+    >
       <div class="card register-card shadow-lg p-4 w-100" style="max-width: 450px">
-        <h2 class="text-center fw-bold mb-4 text-rhis-teal">REGISTER</h2>
+        <div class="text-center mb-4">
+          <img
+            src="assets/images/LogoRhisAlert.png"
+            alt="Login Logo"
+            class="img-fluid mb-2"
+            style="max-height: 80px"
+          />
+          <h5 class="text-black-80 small text-uppercase tracking-widest">Registre uma conta</h5>
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger py-2 small mt-2 border-0 rounded-pill">
+              {{ errorMessage() }}
+            </div>
+          }
+        </div>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
           <div class="mb-2">
@@ -10,7 +26,7 @@
               type="text"
               formControlName="name"
               class="form-control custom-input"
-              placeholder="Full Name"
+              placeholder="Nome Completo"
             />
           </div>
           <div class="mb-2">
@@ -21,22 +37,35 @@
               placeholder="E-Mail"
             />
           </div>
-          <div class="mb-2">
-            <input
-              type="text"
-              formControlName="address"
-              class="form-control custom-input"
-              placeholder="Address"
-            />
+
+          <div class="mb-3 mt-3">
+            <p class="small text-muted mb-2 text-uppercase fw-bold">Condições Respiratórias</p>
+            <div class="d-flex flex-wrap gap-2">
+              @for (item of availableConditions; track item.id) {
+                <button
+                  type="button"
+                  (click)="toggleCondition(item.id)"
+                  [class.btn-rhis-teal]="
+                    registerForm.value.respiratoryConditions?.includes(item.id)
+                  "
+                  [class.btn-outline-secondary]="
+                    !registerForm.value.respiratoryConditions?.includes(item.id)
+                  "
+                  class="btn btn-sm rounded-pill px-3 fw-bold transition-all"
+                >
+                  {{ item.label }}
+                </button>
+              }
+            </div>
           </div>
 
-          <div class="row g-2 mb-3">
+          <div class="row g-2 mb-2">
             <div class="col-6">
               <input
                 type="text"
                 formControlName="city"
                 class="form-control custom-input"
-                placeholder="City/Town"
+                placeholder="Cidade"
               />
             </div>
             <div class="col-6">
@@ -44,7 +73,7 @@
                 type="text"
                 formControlName="country"
                 class="form-control custom-input"
-                placeholder="Country"
+                placeholder="País"
               />
             </div>
           </div>
@@ -54,53 +83,64 @@
               type="text"
               formControlName="userName"
               class="form-control custom-input-blue"
-              placeholder="User name"
+              placeholder="Nome de usuário"
             />
           </div>
-          <div class="mb-2">
-            <input
-              type="password"
-              formControlName="password"
-              class="form-control custom-input-blue"
-              placeholder="Password"
-            />
-          </div>
-          <div class="mb-3">
-            <input
-              type="password"
-              formControlName="confirmPassword"
-              class="form-control custom-input-blue"
-              placeholder="Confirm Password"
-            />
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control custom-input-blue"
+                placeholder="Senha"
+              />
+              @if (
+                registerForm.get('password')?.errors?.['minlength'] &&
+                registerForm.get('password')?.dirty
+              ) {
+                <div class="text-info small mt-1 ps-2 animate__animated animate__fadeIn">
+                  <i class="bi bi-info-circle me-1"></i>
+                  A senha deve conter no mínimo 6 caracteres.
+                </div>
+              }
+            </div>
+            <div class="col-6">
+              <input
+                type="password"
+                formControlName="confirmPassword"
+                class="form-control custom-input-blue"
+                placeholder="Confirmar"
+              />
+            </div>
           </div>
 
           <div class="d-flex justify-content-between gap-3 mt-4">
             <a routerLink="/login" class="btn btn-outline-info rounded-pill w-100 py-2 fw-bold"
-              >Back</a
+              >Voltar</a
             >
             <button
               type="submit"
-              class="btn btn-rhis-teal rounded-pill w-100 py-2 fw-bold text-white"
-              [disabled]="registerForm.invalid"
+              class="btn btn-rhis-teal rounded-pill w-100 py-2 fw-bold text-white d-flex align-items-center justify-content-center"
+              [disabled]="registerForm.invalid || isLoading()"
             >
-              Submit
+              @if (isLoading()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+              }
+              {{ isLoading() ? 'Enviando...' : 'Finalizar' }}
             </button>
           </div>
         </form>
       </div>
     </div>
 
-    <div class="col-lg-7 d-none d-lg-flex align-items-center justify-content-center bg-register-image">
+    <div
+      class="col-lg-7 d-none d-lg-flex align-items-center justify-content-center bg-register-image"
+    >
       <div class="text-center">
-        <div class="mb-4">
-            <img
-              src="assets/images/LogoRhisAlert.png"
-              alt="logo RhisAlert"
-              class="img-fluid custom-img"
-            />
-        </div>
-        <div class="text-center bg-white-overlay p-4 rounded">
-                    <p class="display-5 text-dark">"Sua saúde respiratória, em sintonia com o ambiente."</p>
+        <div class="text-center bg-white-overlay p-4 rounded shadow-sm mx-5">
+          <p class="display-6 text-dark fw-light italic">
+            "Sua saúde respiratória, em sintonia com o ambiente."
+          </p>
         </div>
       </div>
     </div>

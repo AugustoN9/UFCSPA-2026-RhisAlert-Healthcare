@@ -15,40 +15,71 @@ export class Register {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // O formulário precisa conhecer TODOS os campos usados no HTML e na lógica
+  // Sinais para feedback visual
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
+
   registerForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    address: ['', Validators.required], 
+    //address: ['', Validators.required], 
     city: ['', Validators.required],    
     country: ['', Validators.required], 
     userName: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', Validators.required],
-    // Campos de Saúde (Essenciais para o RhisAlert)
-    respiratoryConditions: [[] as string[]], 
-    interests: [[] as string[]],
-    mood: ['']
+    // Estrutura de saúde para o RhisAlert
+    respiratoryConditions: [[] as string[]]
   });
 
-  // Este método agora vai funcionar porque 'respiratoryConditions' existe no formulário
+  // Lista de condições para o usuário escolher
+  availableConditions = [
+    { id: 'rinite', label: 'Rinite' },
+    { id: 'asma', label: 'Asma' },
+    { id: 'sinusite', label: 'Sinusite' }
+  ];
+
   toggleCondition(condition: string) {
     const current = this.registerForm.getRawValue().respiratoryConditions || [];
     const index = current.indexOf(condition);
-    
+    const updated = [...current];
+
     if (index > -1) {
-      current.splice(index, 1);
+      updated.splice(index, 1);
     } else {
-      current.push(condition);
+      updated.push(condition);
     }
     
-    this.registerForm.patchValue({ respiratoryConditions: current });
+    this.registerForm.patchValue({ respiratoryConditions: updated });
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value as any);
-      this.router.navigate(['/dashboard']);
+    if (this.registerForm.invalid) {
+      this.errorMessage.set('Por favor, preencha todos os campos obrigatórios.');
+      return;
     }
+
+    // Validação de senha
+    if (this.registerForm.value.password !== this.registerForm.value.confirmPassword) {
+      this.errorMessage.set('As senhas não coincidem.');
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+
+    // Envia para o Backend/Atlas
+    this.authService.register(this.registerForm.value as any).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        console.log('Usuário registrado com sucesso no Atlas!');
+        this.router.navigate(['/login']); // Após registrar, vai para o login
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorMessage.set('Erro ao criar conta. Verifique se o e-mail já existe.');
+        console.error(err);
+      }
+    });
   }
 }
