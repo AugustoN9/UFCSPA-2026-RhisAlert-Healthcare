@@ -1,24 +1,31 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth';
-import { WeatherService } from '../../../core/services/weather'; 
+import { WeatherService } from '../../../core/services/weather';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
   private authService = inject(AuthService);
   private weatherService = inject(WeatherService);
-  
+  private router = inject(Router);
+
   user = this.authService.currentUser;
   weather = this.weatherService.weatherSignal;
 
   ngOnInit() {
     this.weatherService.getWeather().subscribe();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']); // Redireciona para o login
   }
 
   // Define a cor hexadecimal para o preenchimento CSS
@@ -47,9 +54,12 @@ export class Dashboard implements OnInit {
   getRiskStyles() {
     const label = this.weather()?.riskLabel || 'Baixo';
     switch (label) {
-      case 'Muito Alto': return { label: 'Crítico', class: 'bg-danger text-white' };
-      case 'Médio': return { label: 'Moderado', class: 'bg-warning text-dark' };
-      default: return { label: 'Seguro', class: 'bg-success text-white' };
+      case 'Muito Alto':
+        return { label: 'Crítico', class: 'bg-danger text-white' };
+      case 'Médio':
+        return { label: 'Moderado', class: 'bg-warning text-dark' };
+      default:
+        return { label: 'Seguro', class: 'bg-success text-white' };
     }
   }
 
@@ -70,9 +80,9 @@ export class Dashboard implements OnInit {
       bioTips: [
         'Evite atividades ao ar livre.',
         'Mantenha ambientes internos úmidos.',
-        'Realize lavagem nasal com soro.'
+        'Realize lavagem nasal com soro.',
       ],
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     this.weatherService.weatherSignal.set(mockData as any);
   }
